@@ -124,10 +124,10 @@ int main()
         printf("-");
     }
     printf("\n");
-    printf("|   0    |     -    |        -         |       -       |\n");
+    printf("|    0   |     -    |        -         |       -       |\n");
     for (i = 0; i < n; i++)
     {
-        printf("|  %3d   |    P%d    |        %3d       |      %3d      |\n", p[i].cTime, p[i].pid, p[i].tTime, p[i].wTime);
+        printf("|  %3d   |    P%d    |      %3d         |     %3d       |\n", p[i].cTime, p[i].pid, p[i].tTime, p[i].wTime);
     }
     for (i = 0; i < 56; i++)
     {
