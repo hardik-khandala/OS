@@ -83,6 +83,10 @@ void Firstline(int nf)
 
 int main()
 {
+    int ca;
+    char ch[10];
+
+    start:
     printf("Enter the number of Pages: ");
     int nop;
     scanf("%d", &nop);
@@ -94,8 +98,37 @@ int main()
     }
 
     int frames;
-    printf("Enter the number of Frames(3, 4 or 5): ");
-    scanf("%d", &frames);
+    printf("\n Enter page number as following: \n");
+    printf("1) Enter N frame\n");
+    printf("2) 3 Frame\n");
+    printf("3) 4 Frame\n");
+    printf("4) 5 Frame\n");
+    printf("5) Exit\n");
+    printf("Enter any choise: ");
+    scanf("%d", &ca);
+
+    switch (ca)
+    {
+        case 1:
+            printf("Enter the number of Frames: ");
+            scanf("%d", &frames);
+            break;
+        case 2:
+            frames = 3;
+            break;
+        case 3:
+            frames = 4;
+            break;
+        case 4:
+            frames = 5;
+            break;
+        case 5:
+            exit(1);
+
+        default:
+            printf("Enter valid number between 1 to 5\n");
+            break;
+    }
     count=frames;
     int n = sizeof(incomingStream) / sizeof(incomingStream[0]);
     int queue[n];
@@ -162,10 +195,19 @@ int main()
     int hit = n - pagefault;
     float pfr = ((float)pagefault / (float)n) * 100;
     float phr = ((float)hit / (float)n) * 100;
-    printf("\n\n1) Total no. of page faults : %d", pagefault);
-    printf("\n2) Total no. of page hits : %d", hit);
+    printf("\n\n1) Total no. of page faults\n\t = Total Page - Page Hit \n\t = %d - %d \n\t = %d",n ,hit ,pagefault);
+    printf("\n2) Total no. of page hits\n\t = Total Page - Page faults \n\t = %d - %d \n\t = %d",n ,pagefault, hit);
     printf("\n3) Page Fault Rate \n\t= (No. of Page Fault / No. of Pages) * 100 \n\t= ( %.2f / %.2f ) * 100 \n\t= %.2f%%", (float)pagefault, (float)n, pfr);
-    printf("\n4) Page Hit Rate \n\t= (No. of Pagehit / No. of Pages) * 100 \n\t= ( %.2f / %.2f ) * 100 \n\t= %.2f%%", (float)hit, (float)n, phr);
+    printf("\n4) Page Hit Rate \n\t= (No. of Page Hit / No. of Pages) * 100 \n\t= ( %.2f / %.2f ) * 100 \n\t= %.2f%%", (float)hit, (float)n, phr);
     printf("\n");
+
+    printf("Do you want to contine? (y/n)\n");
+    scanf("%s", ch);
+
+    if(strcmp(ch, "y") == 0)
+    {
+        goto start;
+    }
+
     return 0;
 }
