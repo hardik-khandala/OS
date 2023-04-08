@@ -58,11 +58,12 @@ void Firstline(int nf)
 }
 int main()
 {
-    int i, j, l, rs[25], frame[10], nf, k, avail, count = 0, hit = 0, ca;
+    start:
+    printf("\n");
+    int i=0, j=0, l=0, rs[25], frame[10], nf=0, k=0, avail=0, count = 0, hit = 0, ca=0;
     float pfr = 0, phr = 0;
     char ch[10];
 
-    start:
 
     printf("Enter the length of Reference String: ");
     scanf("%d", &l);
