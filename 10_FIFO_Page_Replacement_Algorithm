@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 void line(int nf)
 {
     if (nf >= 3)
@@ -57,16 +58,49 @@ void Firstline(int nf)
 }
 int main()
 {
-    int i, j, l, rs[25], frame[10], nf, k, avail, count = 0, hit = 0;
+    int i, j, l, rs[25], frame[10], nf, k, avail, count = 0, hit = 0, ca;
     float pfr = 0, phr = 0;
+    char ch[10];
+
+    start:
 
     printf("Enter the length of Reference String: ");
     scanf("%d", &l);
     printf("Enter Reference String:\n");
     for (i = 1; i <= l; i++)
         scanf("%d", &rs[i]);
-    printf("Enter the number of Frames (3, 4 or 5): ");
-    scanf("%d", &nf);
+
+    printf("\n Enter page number as following: \n");
+    printf("1) Enter N frame\n");
+    printf("2) 3 Frame\n");
+    printf("3) 4 Frame\n");
+    printf("4) 5 Frame\n");
+    printf("5) Exit\n");
+    printf("Enter any choise: ");
+    scanf("%d", &ca);
+
+    switch (ca)
+    {
+        case 1:
+            printf("Enter the number of Frames: ");
+            scanf("%d", &nf);
+            break;
+        case 2:
+            nf = 3;
+            break;
+        case 3:
+            nf = 4;
+            break;
+        case 4:
+            nf = 5;
+            break;
+        case 5:
+            exit(1);
+
+        default:
+            printf("Enter valid number between 1 to 5\n");
+            break;
+    }
     for (i = 0; i < nf; i++)
         frame[i] = -1;
     j = 0;
@@ -108,8 +142,18 @@ int main()
     hit = l - count;
     pfr = ((float)count / (float)l) * 100;
     phr = ((float)hit / (float)l) * 100;
-    printf("\n\n1) Total number of page faults : %d", count);
-    printf("\n2) Total number of page hits : %d", hit);
+    printf("\n\n1) Total number of page faults\n\t = Total Page - Page Hit\n\t = %d - %d \n\t = %d", l, hit, count);
+    printf("\n2) Total number of page hits\n\t = Total Page - Page Fault\n\t = %d - %d \n\t = %d", l, count, hit);
     printf("\n3) Page Fault Rate \n\t= (No. of Page Faults / No. of Pages) * 100 \n\t= ( %.2f / %.2f ) * 100 \n\t= %.2f%%", (float)count, (float)l, pfr);
     printf("\n4) Page Hit Rate \n\t= (No. of Page Hits / No. of Pages) * 100 \n\t= ( %.2f / %.2f ) * 100 \n\t= %.2f%%", (float)hit, (float)l, phr);
+
+    printf("\n\nDo you want to contine? (y/n)\n");
+    scanf("%s", ch);
+
+    if(strcmp(ch, "y") == 0)
+    {
+        goto start;
+    }
+    
+    return 0;
 }
