@@ -195,13 +195,13 @@ int main()
     int hit = n - pagefault;
     float pfr = ((float)pagefault / (float)n) * 100;
     float phr = ((float)hit / (float)n) * 100;
-    printf("\n\n1) Total no. of page faults\n\t = Total Page - Page Hit \n\t = %d - %d \n\t = %d",n ,hit ,pagefault);
-    printf("\n2) Total no. of page hits\n\t = Total Page - Page faults \n\t = %d - %d \n\t = %d",n ,pagefault, hit);
-    printf("\n3) Page Fault Rate \n\t= (No. of Page Fault / No. of Pages) * 100 \n\t= ( %.2f / %.2f ) * 100 \n\t= %.2f%%", (float)pagefault, (float)n, pfr);
-    printf("\n4) Page Hit Rate \n\t= (No. of Page Hit / No. of Pages) * 100 \n\t= ( %.2f / %.2f ) * 100 \n\t= %.2f%%", (float)hit, (float)n, phr);
+    printf("\n\n1) Total no. of page faults\n\t = (Total No. of Page - Total No. of Page Hits) \n\t = %d - %d \n\t = %d",n ,hit ,pagefault);
+    printf("\n2) Total no. of page hits\n\t = (Total No. of Page - Total No. of Page faults) \n\t = %d - %d \n\t = %d",n ,pagefault, hit);
+    printf("\n3) Page Fault Rate \n\t= (Total No. of Page Fault / Total No. of Pages) * 100 \n\t= ( %.2f / %.2f ) * 100 \n\t= %.2f%%", (float)pagefault, (float)n, pfr);
+    printf("\n4) Page Hit Rate \n\t= (Total No. of Page Hit / Total No. of Pages) * 100 \n\t= ( %.2f / %.2f ) * 100 \n\t= %.2f%%", (float)hit, (float)n, phr);
     printf("\n");
 
-    printf("Do you want to contine? (y/n)\n");
+    printf("Do you want to continue? (y/n)\n");
     scanf("%s", ch);
 
     if(strcmp(ch, "y") == 0)
