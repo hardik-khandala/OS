@@ -197,8 +197,8 @@ void call(int n, int pg[])
         float phr = ((float)hit / (float)n) * 100;
         printf("\n\n1) Total number of page faults \n\t= (Total No. of Pages - Total No.of Page Hits) \n\t= (%d - %d) \n\t= %d", n, hit, fault);
         printf("\n2) Total number of page hits \n\t= (Total No. of Pages - No.of Page Faults) \n\t= (%d - %d) \n\t= %d", n, fault, hit);
-        printf("\n3) Page Fault Rate \n\t= (No. of Page Fault / No. of Pages) * 100 \n\t= ( %.2f / %.2f ) * 100 \n\t= %.2f%%", (float)fault, (float)n, pfr);
-        printf("\n4) Page Hit Rate \n\t= (No. of Pagehit / No. of Pages) * 100 \n\t= ( %.2f / %.2f ) * 100 \n\t= %.2f%%", (float)hit, (float)n, phr);
+        printf("\n3) Page Fault Rate \n\t= (Total No. of Page Fault / Total No. of Pages) * 100 \n\t= ( %.2f / %.2f ) * 100 \n\t= %.2f%%", (float)fault, (float)n, pfr);
+        printf("\n4) Page Hit Rate \n\t= (Total No. of Page Hits / Total No. of Pages) * 100 \n\t= ( %.2f / %.2f ) * 100 \n\t= %.2f%%", (float)hit, (float)n, phr);
         printf("\n\nDo You Want to Continue...?(Y/N) :");
         scanf("%s", &ans);
         if (ans == 'N')
