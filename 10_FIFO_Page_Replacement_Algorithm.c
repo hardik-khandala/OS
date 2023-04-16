@@ -143,8 +143,8 @@ int main()
     hit = l - count;
     pfr = ((float)count / (float)l) * 100;
     phr = ((float)hit / (float)l) * 100;
-    printf("\n\n1) Total number of page faults\n\t = (Total Page - Total Page Hits)\n\t = %d - %d \n\t = %d", l, hit, count);
-    printf("\n2) Total number of page hits\n\t = (Total Page - Total Page Faults)\n\t = %d - %d \n\t = %d", l, count, hit);
+    printf("\n\n1) Total number of page faults\n\t = (Total No. of Page - Total No. of Page Hits)\n\t = %d - %d \n\t = %d", l, hit, count);
+    printf("\n2) Total number of page hits\n\t = (Total No. of Page - Total No. of Page Faults)\n\t = %d - %d \n\t = %d", l, count, hit);
     printf("\n3) Page Fault Rate \n\t= (Total No. of Page Faults / Total No. of Pages) * 100 \n\t= ( %.2f / %.2f ) * 100 \n\t= %.2f%%", (float)count, (float)l, pfr);
     printf("\n4) Page Hit Rate \n\t= (Total No. of Page Hits / Total No. of Pages) * 100 \n\t= ( %.2f / %.2f ) * 100 \n\t= %.2f%%", (float)hit, (float)l, phr);
 
