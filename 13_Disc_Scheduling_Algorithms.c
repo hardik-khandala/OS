@@ -77,8 +77,9 @@ void sstf(int n, int head, int requests[])
     }
     printf("\nTotal Head Movement: %d Cylinders\n", total_head_movement);
 }
-void scan(int n, int head, int requests[], int direction)
+void scan(int n, int head, int requests[])
 {
+    int direction = 1;
     int total_head_movement = 0;
     printf("\nSCAN (Elevator) Disk Scheduling Algorithm\n");
     printf("Request Queue: ");
@@ -112,7 +113,6 @@ void scan(int n, int head, int requests[], int direction)
             }
         }
     }
-
     int head_index = -1;
     for (int i = 0; i < n; i++)
     {
@@ -122,59 +122,29 @@ void scan(int n, int head, int requests[], int direction)
             break;
         }
     }
-    if (direction == 1)
+    for (int i = head_index; i < n; i++)
     {
-        for (int i = head_index; i < n; i++)
+        if (requests[i] > head)
         {
-            if (requests[i] > head)
-            {
-                total_head_movement += abs(requests[i] - current);
-                current = requests[i];
-                printf("%d ", current);
-                completed[i] = 1;
-            }
-        }
-
-        printf("199 ");
-        total_head_movement += abs(199 - current);
-        current = 199;
-        found = 1;
-        for (int i = n; i > head_index; i--)
-        {
-            if (requests[i] < head)
-            {
-                printf("%d ", requests[i]);
-                total_head_movement += abs(requests[i] - current);
-                current = requests[i];
-                completed[i] = 1;
-            }
+            total_head_movement += abs(requests[i] - current);
+            current = requests[i];
+            printf("%d ", current);
+            completed[i] = 1;
         }
     }
-    else
+
+    printf("199 ");
+    total_head_movement += abs(199 - current);
+    current = 199;
+    found = 1;
+    for (int i = n; i > head_index; i--)
     {
-        for (int i = n; i > head_index; i--)
+        if (requests[i] < head)
         {
-            if (requests[i] < head)
-            {
-                printf("%d ", requests[i]);
-                total_head_movement += abs(requests[i] - current);
-                current = requests[i];
-                completed[i] = 1;
-            }
-        }
-        printf("0 ");
-        total_head_movement += abs(0 - current);
-        current = 0;
-        found = 1;
-        for (int i = head_index; i < n; i++)
-        {
-            if (requests[i] > head)
-            {
-                total_head_movement += abs(requests[i] - current);
-                current = requests[i];
-                printf("%d ", current);
-                completed[i] = 1;
-            }
+            printf("%d ", requests[i]);
+            total_head_movement += abs(requests[i] - current);
+            current = requests[i];
+            completed[i] = 1;
         }
     }
     if (!found)
@@ -185,8 +155,78 @@ void scan(int n, int head, int requests[], int direction)
 
     printf("\nTotal Head Movement: %d Cylinders\n", total_head_movement);
 }
-void c_scan(int requests[], int n, int head, int direction)
+void scan1(int n, int head, int requests[])
 {
+    int direction = -1;
+    int total_head_movement = 0;
+    printf("Direction: %s\n", direction == 1 ? "RIGHT" : "LEFT");
+    printf("Sequence of Movement: ");
+
+    int completed[n];
+    for (int i = 0; i < n; i++)
+    {
+        completed[i] = 0;
+    }
+
+    int current = head;
+    int found = 0;
+
+    for (int i = 0; i < n - 1; i++)
+    {
+        for (int j = 0; j < n - i - 1; j++)
+        {
+            if (requests[j] > requests[j + 1])
+            {
+                int temp = requests[j];
+                requests[j] = requests[j + 1];
+                requests[j + 1] = temp;
+            }
+        }
+    }
+    int head_index = -1;
+    for (int i = 0; i < n; i++)
+    {
+        if (requests[i] == head)
+        {
+            head_index = i;
+            break;
+        }
+    }
+    for (int i = n; i > head_index; i--)
+    {
+        if (requests[i] < head)
+        {
+            printf("%d ", requests[i]);
+            total_head_movement += abs(requests[i] - current);
+            current = requests[i];
+            completed[i] = 1;
+        }
+    }
+    printf("0 ");
+    total_head_movement += abs(0 - current);
+    current = 0;
+    found = 1;
+    for (int i = head_index; i < n; i++)
+    {
+        if (requests[i] > head)
+        {
+            total_head_movement += abs(requests[i] - current);
+            current = requests[i];
+            printf("%d ", current);
+            completed[i] = 1;
+        }
+    }
+    if (!found)
+    {
+        printf("%d ", head);
+        total_head_movement += abs(head - current);
+    }
+
+    printf("\nTotal Head Movement: %d Cylinders\n", total_head_movement);
+}
+void c_scan(int requests[], int n, int head)
+{
+    int direction = 1;
     int total_head_movement = 0;
     printf("\nC-SCAN (Elevator) Disk Scheduling Algorithm\n");
     printf("Request Queue: ");
@@ -230,60 +270,30 @@ void c_scan(int requests[], int n, int head, int direction)
             break;
         }
     }
-    if (direction == 1)
+    for (int i = head_index; i < n; i++)
     {
-        for (int i = head_index; i < n; i++)
+        if (requests[i] > head)
         {
-            if (requests[i] > head)
-            {
-                printf("%d ", requests[i]);
-                total_head_movement += abs(requests[i] - current);
-                current = requests[i];
-                completed[i] = 1;
-            }
-        }
-
-        printf("199 ");
-        total_head_movement += abs(199 - current);
-        current = 199;
-        found = 1;
-        printf("0 ");
-        for (int i = 0; i < n - 2; i++)
-        {
-            if (requests[i] < head)
-            {
-                printf("%d ", requests[i]);
-                total_head_movement += abs(requests[i] - current);
-                current = requests[i];
-                completed[i] = 1;
-            }
+            printf("%d ", requests[i]);
+            total_head_movement += abs(requests[i] - current);
+            current = requests[i];
+            completed[i] = 1;
         }
     }
-    else
+
+    printf("199 ");
+    total_head_movement += abs(199 - current);
+    current = 199;
+    found = 1;
+    printf("0 ");
+    for (int i = 0; i < n - 2; i++)
     {
-        for (int i = n; i > head_index; i--)
+        if (requests[i] < head)
         {
-            if (requests[i] < head)
-            {
-                printf("%d ", requests[i]);
-                total_head_movement += abs(requests[i] - current);
-                current = requests[i];
-                completed[i] = 1;
-            }
-        }
-        printf("0 ");
-        total_head_movement += abs(requests[0] - current);
-        current = 0;
-        found = 1;
-        for (int i = n - 1; i > head_index; i--)
-        {
-            if (requests[i] > head)
-            {
-                total_head_movement += abs(requests[i] - current);
-                current = requests[i];
-                printf("%d ", current);
-                completed[i] = 1;
-            }
+            printf("%d ", requests[i]);
+            total_head_movement += abs(requests[i] - current);
+            current = requests[i];
+            completed[i] = 1;
         }
     }
     if (!found)
@@ -295,8 +305,80 @@ void c_scan(int requests[], int n, int head, int direction)
     printf("\nTotal Head Movement: %d Cylinders\n", total_head_movement);
 }
 
-void look(int n, int head, int requests[], int direction)
+void c_scan1(int requests[], int n, int head)
 {
+    int direction = -1;
+    int total_head_movement = 0;
+    printf("Direction: %s\n", direction == 1 ? "RIGHT" : "LEFT");
+    printf("Sequence of Movement: ");
+
+    int completed[n];
+    for (int i = 0; i < n; i++)
+    {
+        completed[i] = 0;
+    }
+
+    int current = head;
+    int found = 0;
+
+    for (int i = 0; i < n - 1; i++)
+    {
+        for (int j = 0; j < n - i - 1; j++)
+        {
+            if (requests[j] > requests[j + 1])
+            {
+                int temp = requests[j];
+                requests[j] = requests[j + 1];
+                requests[j + 1] = temp;
+            }
+        }
+    }
+
+    int head_index = -1;
+    for (int i = 0; i < n; i++)
+    {
+        if (requests[i] == head)
+        {
+            head_index = i;
+            break;
+        }
+    }
+    for (int i = n; i > head_index; i--)
+    {
+        if (requests[i] < head)
+        {
+            printf("%d ", requests[i]);
+            total_head_movement += abs(requests[i] - current);
+            current = requests[i];
+            completed[i] = 1;
+        }
+    }
+    printf("0 ");
+    total_head_movement += abs(requests[0] - current);
+    current = 0;
+    found = 1;
+    for (int i = n - 1; i > head_index; i--)
+    {
+        if (requests[i] > head)
+        {
+            total_head_movement += abs(requests[i] - current);
+            current = requests[i];
+            printf("%d ", current);
+            completed[i] = 1;
+        }
+    }
+    if (!found)
+    {
+        printf("%d ", head);
+        total_head_movement += abs(head - current);
+    }
+
+    printf("\nTotal Head Movement: %d Cylinders\n", total_head_movement);
+}
+
+void look(int n, int head, int requests[])
+{
+    int direction = 1;
     int total_head_movement = 0;
     printf("\nLOOK Disk Scheduling Algorithm\n");
     printf("Request Queue: ");
@@ -340,53 +422,26 @@ void look(int n, int head, int requests[], int direction)
             break;
         }
     }
-    if (direction == 1)
+    for (int i = head_index; i < n; i++)
     {
-        for (int i = head_index; i < n; i++)
+        if (requests[i] > head)
         {
-            if (requests[i] > head)
-            {
-                total_head_movement += abs(requests[i] - current);
-                current = requests[i];
-                printf("%d ", current);
-                completed[i] = 1;
-            }
-        }
-
-        found = 1;
-        for (int i = n; i > head_index; i--)
-        {
-            if (requests[i] < head)
-            {
-                printf("%d ", requests[i]);
-                total_head_movement += abs(requests[i] - current);
-                current = requests[i];
-                completed[i] = 1;
-            }
+            total_head_movement += abs(requests[i] - current);
+            current = requests[i];
+            printf("%d ", current);
+            completed[i] = 1;
         }
     }
-    else
+
+    found = 1;
+    for (int i = n; i > head_index; i--)
     {
-        for (int i = n; i > head_index; i--)
+        if (requests[i] < head)
         {
-            if (requests[i] < head)
-            {
-                printf("%d ", requests[i]);
-                total_head_movement += abs(requests[i] - current);
-                current = requests[i];
-                completed[i] = 1;
-            }
-        }
-        found = 1;
-        for (int i = head_index; i < n; i++)
-        {
-            if (requests[i] > head)
-            {
-                total_head_movement += abs(requests[i] - current);
-                current = requests[i];
-                printf("%d ", current);
-                completed[i] = 1;
-            }
+            printf("%d ", requests[i]);
+            total_head_movement += abs(requests[i] - current);
+            current = requests[i];
+            completed[i] = 1;
         }
     }
     if (!found)
@@ -397,8 +452,78 @@ void look(int n, int head, int requests[], int direction)
 
     printf("\nTotal Head Movement: %d Cylinders\n", total_head_movement);
 }
-void c_look(int n, int head, int requests[], int direction)
+
+void look1(int n, int head, int requests[])
 {
+    int direction = -1;
+    int total_head_movement = 0;
+
+    printf("Direction: %s\n", direction == 1 ? "RIGHT" : "LEFT");
+    printf("Sequence of Movement: ");
+
+    int completed[n];
+    for (int i = 0; i < n; i++)
+    {
+        completed[i] = 0;
+    }
+
+    int current = head;
+    int found = 0;
+
+    for (int i = 0; i < n - 1; i++)
+    {
+        for (int j = 0; j < n - i - 1; j++)
+        {
+            if (requests[j] > requests[j + 1])
+            {
+                int temp = requests[j];
+                requests[j] = requests[j + 1];
+                requests[j + 1] = temp;
+            }
+        }
+    }
+
+    int head_index = -1;
+    for (int i = 0; i < n; i++)
+    {
+        if (requests[i] == head)
+        {
+            head_index = i;
+            break;
+        }
+    }
+    for (int i = n; i > head_index; i--)
+    {
+        if (requests[i] < head)
+        {
+            printf("%d ", requests[i]);
+            total_head_movement += abs(requests[i] - current);
+            current = requests[i];
+            completed[i] = 1;
+        }
+    }
+    found = 1;
+    for (int i = head_index; i < n; i++)
+    {
+        if (requests[i] > head)
+        {
+            total_head_movement += abs(requests[i] - current);
+            current = requests[i];
+            printf("%d ", current);
+            completed[i] = 1;
+        }
+    }
+    if (!found)
+    {
+        printf("%d ", head);
+        total_head_movement += abs(head - current);
+    }
+
+    printf("\nTotal Head Movement: %d Cylinders\n", total_head_movement);
+}
+void c_look(int n, int head, int requests[])
+{
+    int direction = 1;
     int total_head_movement = 0;
     printf("\nC-LOOK Disk Scheduling Algorithm\n");
     printf("Request Queue: ");
@@ -442,53 +567,26 @@ void c_look(int n, int head, int requests[], int direction)
             break;
         }
     }
-    if (direction == 1)
+    for (int i = head_index; i < n; i++)
     {
-        for (int i = head_index; i < n; i++)
+        if (requests[i] > head)
         {
-            if (requests[i] > head)
-            {
-                printf("%d ", requests[i]);
-                total_head_movement += abs(requests[i] - current);
-                current = requests[i];
-                completed[i] = 1;
-            }
-        }
-
-        found = 1;
-        for (int i = 0; i < n - 2; i++)
-        {
-            if (requests[i] < head)
-            {
-                printf("%d ", requests[i]);
-                total_head_movement += abs(requests[i] - current);
-                current = requests[i];
-                completed[i] = 1;
-            }
+            printf("%d ", requests[i]);
+            total_head_movement += abs(requests[i] - current);
+            current = requests[i];
+            completed[i] = 1;
         }
     }
-    else
+
+    found = 1;
+    for (int i = 0; i < n - 2; i++)
     {
-        for (int i = n; i > head_index; i--)
+        if (requests[i] < head)
         {
-            if (requests[i] < head)
-            {
-                printf("%d ", requests[i]);
-                total_head_movement += abs(requests[i] - current);
-                current = requests[i];
-                completed[i] = 1;
-            }
-        }
-        found = 1;
-        for (int i = n - 1; i > head_index; i--)
-        {
-            if (requests[i] > head)
-            {
-                total_head_movement += abs(requests[i] - current);
-                current = requests[i];
-                printf("%d ", current);
-                completed[i] = 1;
-            }
+            printf("%d ", requests[i]);
+            total_head_movement += abs(requests[i] - current);
+            current = requests[i];
+            completed[i] = 1;
         }
     }
     if (!found)
@@ -500,34 +598,80 @@ void c_look(int n, int head, int requests[], int direction)
     printf("\nTotal Head Movement: %d Cylinders\n", total_head_movement);
 }
 
-int askToContinue()
+void c_look1(int n, int head, int requests[])
 {
-    char choice;
-    printf("\nDo you want to continue? (y/n): ");
-    scanf(" %c", &choice);
-    if (choice == 'y' || choice == 'Y')
+    int direction = -1;
+    int total_head_movement = 0;
+
+    printf("Direction: %s\n", direction == 1 ? "RIGHT" : "LEFT");
+    printf("Sequence of Movement: ");
+
+    int completed[n];
+    for (int i = 0; i < n; i++)
     {
-        return 1;
+        completed[i] = 0;
     }
-    else if (choice == 'n' || choice == 'N')
+
+    int current = head;
+    int found = 0;
+
+    for (int i = 0; i < n - 1; i++)
     {
-        return 0;
+        for (int j = 0; j < n - i - 1; j++)
+        {
+            if (requests[j] > requests[j + 1])
+            {
+                int temp = requests[j];
+                requests[j] = requests[j + 1];
+                requests[j + 1] = temp;
+            }
+        }
     }
-    else
+
+    int head_index = -1;
+    for (int i = 0; i < n; i++)
     {
-        printf("\nWrong Input! Try again...\n");
-        askToContinue();
-        return -1;
+        if (requests[i] == head)
+        {
+            head_index = i;
+            break;
+        }
     }
+    for (int i = n; i > head_index; i--)
+    {
+        if (requests[i] < head)
+        {
+            printf("%d ", requests[i]);
+            total_head_movement += abs(requests[i] - current);
+            current = requests[i];
+            completed[i] = 1;
+        }
+    }
+    found = 1;
+    for (int i = n - 1; i > head_index; i--)
+    {
+        if (requests[i] > head)
+        {
+            total_head_movement += abs(requests[i] - current);
+            current = requests[i];
+            printf("%d ", current);
+            completed[i] = 1;
+        }
+    }
+    if (!found)
+    {
+        printf("%d ", head);
+        total_head_movement += abs(head - current);
+    }
+
+    printf("\nTotal Head Movement: %d Cylinders\n", total_head_movement);
 }
 
 int main()
 {
-    int n;
-    int head;
-    int direction;
+    int n = 0;
+    int head = 0;
     int continueLoop = 1;
-    char ch;
     printf("Enter the number of requests: ");
     scanf("%d", &n);
     printf("Enter the initial head position: ");
@@ -539,50 +683,16 @@ int main()
     {
         scanf("%d", &requests[i]);
     }
-    while (continueLoop)
-    {
-        printf("\nChoose any option: \n(A) FCFS\n(B) SSTF\n(C) SCAN\n(D) C-SCAN\n(E) LOOK\n(F) C-LOOK\n(G) Exit\n");
-        printf("\nEnter your choice: ");
-        scanf("\n%c", &ch);
-        switch (ch)
-        {
-        case 'A':
-            fcfs(n, head, requests);
-            break;
-        case 'B':
-            sstf(n, head, requests);
-            break;
-        case 'C':
-            printf("Enter the direction (1 for RIGHT or -1 for LEFT): ");
-            scanf("%d", &direction);
-            scan(n, head, requests, direction);
-            break;
-        case 'D':
-            printf("Enter the direction (1 for RIGHT or -1 for LEFT): ");
-            scanf("%d", &direction);
-            c_scan(requests, n, head, direction);
-            break;
-        case 'E':
-            printf("Enter the direction (1 for RIGHT or -1 for LEFT): ");
-            scanf("%d", &direction);
-            look(n, head, requests, direction);
-            break;
-        case 'F':
-            printf("Enter the direction (1 for RIGHT or -1 for LEFT): ");
-            scanf("%d", &direction);
-            c_look(n, head, requests, direction);
-            break;
-        case 'G':
-            exit(0);
-            break;
-        default:
-            printf("\nWrong Input!\n");
-            break;
-        }
-        if (continueLoop)
-        {
-            continueLoop = askToContinue();
-        }
-    }
+
+    fcfs(n, head, requests);
+    sstf(n, head, requests);
+    scan(n, head, requests);
+    scan1(n, head, requests);
+    c_scan(requests, n, head);
+    c_scan1(requests, n, head);
+    look(n, head, requests);
+    look1(n, head, requests);
+    c_look(n, head, requests);
+    c_look1(n, head, requests);
     return 0;
 }
